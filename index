@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliseeva's Bakery</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #3a8b7a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        /* ===== MAIN CARD ===== */
+        .card {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        /* ===== LEFT PANEL ===== */
+        .left-panel {
+            flex: 0 0 42%;
+            background: linear-gradient(180deg, #2db5a0 0%, #1e9e8b 100%);
+            padding: 40px 35px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Auth buttons */
+        .auth-buttons {            display: flex;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .btn-signin {
+            background: #1a1a2e;
+            color: #fff;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-signin:hover {
+            background: #2d2d44;
+            transform: translateY(-1px);
+        }
+
+        .btn-login {
+            background: transparent;
+            color: #fff;
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-login:hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Headline */
+        .headline {
+            font-size: 44px;
+            font-weight: 800;
+            line-height: 1.15;
+            color: #0a3d2e;
+            margin-bottom: 18px;
+            letter-spacing: -0.5px;
+        }
+
+        /* Description */        .description {
+            font-size: 13px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 24px;
+            max-width: 300px;
+        }
+
+        /* CTA Button */
+        .btn-choose {
+            background: #f5e6cc;
+            color: #4a3728;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: fit-content;
+            margin-bottom: 28px;
+        }
+
+        .btn-choose:hover {
+            background: #ffe0b8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Flavor card */
+        .flavor-card {
+            background: rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 14px;
+            padding: 22px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .flavor-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .flavor-text {
+            font-size: 12px;
+            line-height: 1.6;            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 20px;
+        }
+
+        .flavor-nav {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .nav-arrow {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255, 255, 255, 0.35);
+            background: transparent;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #fff;
+        }
+
+        /* ===== RIGHT PANEL ===== */
+        .right-panel {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            background: #f5f0eb;
+        }
+
+        .cookie-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Placeholder for cookie image */
+        .cookie-placeholder {
+            width: 100%;
+            height: 100%;
+            background:                radial-gradient(ellipse at 60% 40%, #c4956a 0%, #8b6914 40%, #5c3d10 70%, #3d2507 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cookie-placeholder::before {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #d4a574 0%, #a07840 50%, #7a5a30 100%);
+            border-radius: 50%;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow:
+                inset 0 -10px 20px rgba(0,0,0,0.3),
+                0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .cookie-placeholder::after {
+            content: '';
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            background: radial-gradient(circle, #c99a6a 0%, #9a7040 50%, #6e4d28 100%);
+            border-radius: 50%;
+            top: 25%;
+            left: 50%;
+            transform: translateX(-45%);
+            box-shadow:
+                inset 0 -10px 20px rgba(0,0,0,0.3),
+                0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        /* Nav overlay */
+        .nav-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 25px 40px;
+            z-index: 10;
+        }
+        .nav-link {
+            color: #2a2a2a;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: color 0.3s;
+            letter-spacing: 0.3px;
+        }
+
+        .nav-link:hover {
+            color: #2db5a0;
+        }
+
+        .nav-spacer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-spacer > div {
+            display: flex;
+            gap: 60px;
+        }
+
+        /* Watermark */
+        .watermark {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 80px;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.2);
+            letter-spacing: 8px;
+            z-index: 5;
+            user-select: none;
+        }
+
+        /* Plate decoration */
+        .plate-decoration {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30%;
+            background: linear-gradient(180deg, transparent 0%, rgba(45, 181, 160, 0.15) 100%);
+            z-index: 3;
+        }
+
+        /* Cookie crumbs decoration */        .crumb {
+            position: absolute;
+            border-radius: 50%;
+            background: #8b6914;
+            opacity: 0.6;
+        }
+
+        .crumb-1 { width: 12px; height: 12px; bottom: 25%; left: 15%; }
+        .crumb-2 { width: 8px; height: 8px; bottom: 30%; left: 25%; background: #a07840; }
+        .crumb-3 { width: 15px; height: 10px; bottom: 20%; left: 35%; border-radius: 40%; background: #6e4d28; }
+        .crumb-4 { width: 10px; height: 10px; bottom: 35%; left: 45%; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .card {
+                flex-direction: column;
+                max-width: 500px;
+            }
+
+            .left-panel {
+                flex: none;
+                padding: 30px 25px;
+            }
+
+            .headline {
+                font-size: 32px;
+            }
+
+            .right-panel {
+                min-height: 400px;
+            }
+
+            .nav-overlay {
+                padding: 15px 20px;
+            }
+
+            .nav-spacer > div {
+                gap: 25px;
+            }
+
+            .watermark {
+                font-size: 50px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .nav-spacer > div {
+                gap: 15px;
+            }
+            .nav-link {
+                font-size: 11px;
+            }
+
+            .headline {
+                font-size: 26px;
+            }
+
+            .watermark {
+                font-size: 35px;
+                letter-spacing: 4px;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes floatUp {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .flavor-card {
+            animation: floatUp 6s ease-in-out infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .left-panel > * {
+            animation: fadeIn 0.8s ease-out backwards;
+        }
+
+        .left-panel > *:nth-child(1) { animation-delay: 0.1s; }
+        .left-panel > *:nth-child(2) { animation-delay: 0.2s; }
+        .left-panel > *:nth-child(3) { animation-delay: 0.3s; }
+        .left-panel > *:nth-child(4) { animation-delay: 0.4s; }
+        .left-panel > *:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- LEFT PANEL -->
+        <div class="left-panel">
+            <div class="auth-buttons">
+                <button class="btn-signin">Sign in</button>
+                <button class="btn-login">Log in</button>
+            </div>
+            <h1 class="headline">Sometimes a cookie is enough to make you happy</h1>
+
+            <p class="description">
+                Cookies can be selected to suit any taste and color. Eliseeva's bakery is a great chance to order any cookies.
+            </p>
+
+            <button class="btn-choose">Choose a cookie</button>
+
+            <div class="flavor-card">
+                <div class="flavor-title">Banana-raspberry</div>
+                <p class="flavor-text">
+                    A delicate combination of raspberry and banana filling the addition of chocolate chips
+                </p>
+                <div class="flavor-nav">
+                    <button class="nav-arrow" aria-label="Previous">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button class="nav-arrow" aria-label="Next">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="right-panel">
+            <!-- Replace this placeholder with your actual cookie image:
+                 <img src="cookies.jpg" alt="Cookies" class="cookie-image"> -->
+            <div class="cookie-placeholder"></div>
+
+            <div class="nav-overlay">
+                <div class="nav-spacer">
+                    <div>
+                        <a href="#" class="nav-link">About us</a>
+                        <a href="#" class="nav-link">Contacts</a>
+                        <a href="#" class="nav-link">Tastes</a>
+                        <a href="#" class="nav-link">Reviews</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="watermark">ELISEEVA</div>
+            <div class="plate-decoration"></div>
+
+            <!-- Decorative crumbs -->
+            <div class="crumb crumb-1"></div>
+            <div class="crumb crumb-2"></div>
+            <div class="crumb crumb-3"></div>
+            <div class="crumb crumb-4"></div>
+        </div>    </div>
+
+</body>
+</html>
